@@ -198,14 +198,15 @@ for i in index_list:
                         else:
                             print('This roi already exists in your CT')
                 patient.Save()
-
-            case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
-                                        ExaminationGroupType="Collection4dct", 
-                                        ExaminationNames=phases_ct_names)
-            
-            struct_to_analyze = "CTV_T_LN"
-            phases_group_name = "Phases "+str(rct)
-            create_MidV_EndInHale_EndExHale(phases_group_name, struct_to_analyze, rct)
-
+                
         #Once we have all phases (CT and contours) - we create a CT group
+
+        case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
+                                    ExaminationGroupType="Collection4dct", 
+                                    ExaminationNames=phases_ct_names)
+            
+        struct_to_analyze = "CTV_T_LN"
+        phases_group_name = "Phases "+str(rct)
+        create_MidV_EndInHale_EndExHale(phases_group_name, struct_to_analyze, rct)
+
         patient.Save()
