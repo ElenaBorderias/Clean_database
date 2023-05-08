@@ -10,6 +10,11 @@ import json
 import os
 import pydicom
 
+patient_list = []
+#index_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+index_list = [3]
+print(index_list)
+
 def log_warning(error):
     """ Example on how to read the JSON error string."""
 
@@ -48,10 +53,72 @@ def log_completed(result):
     except ValueError:
         print('Error reading completion messages.')
 
-patient_list = []
-#index_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-index_list = [3]
-print(index_list)
+def create_MidV_EndInHale_EndExHale(phases_group_name, struct_to_analyze, index):
+
+    list_exam_full = [x.Examination.Name for x in case.ExaminationGroups[phases_group_name].Items]
+    # We calculate the real Mid-position, the Mid-ventilation CT, the GTV movement around the Mid-ventilation CTV
+    # Initialize 3 list (one per direction x, y, z) to contain CTV center of each CT from the 4D setT
+    center_roi_x = []
+    center_roi_y = []
+    center_roi_z = []
+    # Iterate over the list content
+    print("Getting the center-coordinates of the CTV on all the phases")
+    for i in list_exam_full:
+        # Calculate difference in CTV center based on each axis relative to the selected CT(exam_name)
+        center_roi_x.append(case.PatientModel.StructureSets[str(
+            i)].RoiGeometries[struct_to_analyze].GetCenterOfRoi().x)
+        center_roi_y.append(case.PatientModel.StructureSets[str(
+            i)].RoiGeometries[struct_to_analyze].GetCenterOfRoi().y)
+        center_roi_z.append(case.PatientModel.StructureSets[str(
+            i)].RoiGeometries[struct_to_analyze].GetCenterOfRoi().z)
+    # Calculate the average of CTV center displacement according to each axis
+    mean_x = sum(center_roi_x) / len(center_roi_x)
+    mean_y = sum(center_roi_y) / len(center_roi_y)
+    mean_z = sum(center_roi_z) / len(center_roi_z)
+    print("coord. mid. P: x = ", mean_x, " ,y = ", mean_y, " ,z = ", mean_z)
+    # Calculate the root mean square of the CTV in the selected CT(exam_name) relative the mean calculate over each axis
+    # Use the minimum value as starting point to find the smallest value in CTV center displacement from the mid-position
+    rms_list = []
+    for center_idx in range(0, len(center_roi_x)):
+        rms_list.append(math.sqrt(
+            ((center_roi_x[center_idx] - mean_x) ** 2) + ((center_roi_y[center_idx] - mean_y) ** 2) + (
+                (center_roi_z[center_idx] - mean_z) ** 2)))
+    # Initialize the variable midV_ct as being the CT allowing the initialization of the minimum variable
+    rms = min(rms_list[6:])
+    print("rms : ", rms)
+    print(rms_list)
+
+    midV_scan_id = rms_list.index(rms)
+
+    midV_ct = list_exam_full[midV_scan_id]
+    print("The determined real midV CT phase is:" + midV_ct)
+    print("coord. mid. V: x = ", center_roi_x[midV_scan_id], " ,y = ", center_roi_y[midV_scan_id], " ,z = ",
+          center_roi_z[midV_scan_id])
+
+    print(center_roi_z)
+
+    end_inhale = max(center_roi_z)
+    end_exhale = min(center_roi_z)
+
+    inhale_scan_id = center_roi_z.index(end_inhale)
+    exhale_scan_id = center_roi_z.index(end_exhale)
+
+    inhale_ct = list_exam_full[inhale_scan_id]
+    exhale_ct = list_exam_full[exhale_scan_id]
+
+    if midV_ct == exhale_ct or if midV_ct == inhale_ct:
+        rms = min(rms_list)
+        print("rms : ", rms)
+        print(rms_list)
+
+        midV_scan_id = rms_list.index(rms)
+        midV_ct = list_exam_full[midV_scan_id]
+
+    case.Examinations[midV_ct].Name = 'MidV CT' + index
+    case.Examinations[exhale_ct].Name = 'End_InH' + index
+    case.Examinations[inhale_ct].Name = 'End_ExH' + index
+
+    return 'MidV CT' + index, 'End_InH' + index, 'End_ExH' + index
 
 for i in index_list:
 
@@ -132,9 +199,13 @@ for i in index_list:
                             print('This roi already exists in your CT')
                 patient.Save()
 
-                case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
-                                            ExaminationGroupType="Collection4dct", 
-                                            ExaminationNames=[phases_ct_names])
+            case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
+                                        ExaminationGroupType="Collection4dct", 
+                                        ExaminationNames=[phases_ct_names])
+            
+            struct_to_analyze = "CTV_T_LN"
+            phases_group_name = "Phases "+str(rct)
+            create_MidV_EndInHale_EndExHale(phases_group_name, struct_to_analyze, rct)
 
         #Once we have all phases (CT and contours) - we create a CT group
         patient.Save()
