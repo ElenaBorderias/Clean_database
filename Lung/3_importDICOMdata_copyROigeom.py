@@ -105,7 +105,7 @@ for i in index_list:
                 rt_struct_path = os.path.join(phase_path,rt_structut_file)
                 RT_dcm = pydicom.read_file(rt_struct_path)
                 info_rtstruct = {'PatientID': RT_dcm.PatientID, 'StudyInstanceUID': str(RT_dcm.StudyInstanceUID), 'SeriesInstanceUID': str(RT_dcm.SeriesInstanceUID)}
-                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_rtstruct],AllowMismatchingPatientID=True)
+                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_rtstruct])
 
                 #Get CT name
                 examination_index = case.Examinations.Count - 1
