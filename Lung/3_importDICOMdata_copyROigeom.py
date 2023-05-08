@@ -201,7 +201,7 @@ for i in index_list:
 
             case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
                                         ExaminationGroupType="Collection4dct", 
-                                        ExaminationNames=[phases_ct_names])
+                                        ExaminationNames=phases_ct_names)
             
             struct_to_analyze = "CTV_T_LN"
             phases_group_name = "Phases "+str(rct)
