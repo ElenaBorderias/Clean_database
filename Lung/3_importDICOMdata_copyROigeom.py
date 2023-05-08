@@ -64,7 +64,7 @@ for i in index_list:
     case = get_current("Case")
     clinic_db = get_current('ClinicDB')
     patient_name_folder = "FDG^Lung"+str(i)+"_1"
-    patient_path = os.path.join("Y:\Elena\Clean_data_Dario",patient.Name)
+    patient_path = os.path.join("Y:\Elena\Clean_data_Dario",patient_name_folder)
     rcts = ["2","3"]
     for rct in rcts:
         phases = os.listdir(os.path.join(patient_path,rct))
