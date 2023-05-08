@@ -132,5 +132,9 @@ for i in index_list:
                             print('This roi already exists in your CT')
                 patient.Save()
 
+                case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
+                                            ExaminationGroupType="Collection4dct", 
+                                            ExaminationNames=[phases_ct_names])
+
         #Once we have all phases (CT and contours) - we create a CT group
-        #patient.Save()
+        patient.Save()
