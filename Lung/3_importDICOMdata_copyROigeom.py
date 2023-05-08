@@ -9,6 +9,7 @@ from Patients import Patient
 import json
 import os
 import pydicom
+import math
 
 patient_list = []
 #index_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
@@ -198,7 +199,7 @@ for i in index_list:
                         else:
                             print('This roi already exists in your CT')
                 patient.Save()
-                
+
         #Once we have all phases (CT and contours) - we create a CT group
 
         case.CreateExaminationGroup(ExaminationGroupName="Phases "+str(rct), 
