@@ -75,7 +75,7 @@ for i in index_list:
 
             #I will import all phases except for the MidP
 
-            if not phases.startswith("MidP"):
+            if not phase.startswith("MidP"):
                 # Import CT 
                 # get the first slice
                 first_ct_slice = os.listdir(phase_path)[0]
