@@ -18,7 +18,7 @@ class Patient:
     def getPatientInfo(self):
         if self.patientInfo == '':
             patient_db = get_current("PatientDB")
-            patientInfos = patient_db.QueryPatientInfo(Filter={'LastName': '^'+self.name+'$', 'FirstName': 'PROTECT'})
+            patientInfos = patient_db.QueryPatientInfo(Filter={'LastName': '^'+self.name+'$'})
             # Check that info contains exactly one item.
             if len(patientInfos) == 1:
                 self.patientInfo = patientInfos[0]
