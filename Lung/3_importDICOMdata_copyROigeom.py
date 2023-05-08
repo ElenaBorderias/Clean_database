@@ -71,7 +71,7 @@ for i in index_list:
         phases_ct_names = []
 
         for phase in phases:
-            phase_path = os.path.join(patient_path,phase)
+            phase_path = os.path.join(patient_path,rct,phase)
 
             #I will import all phases except for the MidP
 
