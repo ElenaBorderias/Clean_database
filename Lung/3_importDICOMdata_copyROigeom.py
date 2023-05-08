@@ -106,7 +106,7 @@ def create_MidV_EndInHale_EndExHale(phases_group_name, struct_to_analyze, index)
     inhale_ct = list_exam_full[inhale_scan_id]
     exhale_ct = list_exam_full[exhale_scan_id]
 
-    if midV_ct == exhale_ct or if midV_ct == inhale_ct:
+    if midV_ct == exhale_ct or midV_ct == inhale_ct:
         rms = min(rms_list)
         print("rms : ", rms)
         print(rms_list)
