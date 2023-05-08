@@ -68,6 +68,7 @@ for i in index_list:
     rcts = ["2","3"]
     for rct in rcts:
         phases = os.listdir(os.path.join(patient_path,rct))
+        print("Here are the phases: ", phases)
         phases_ct_names = []
 
         for phase in phases:
@@ -128,6 +129,7 @@ for i in index_list:
                             case.PatientModel.RegionsOfInterest[roi_to_copy].DeleteRoi()
                         else:
                             print('This roi already exists in your CT')
+                patient.Save()
 
         #Once we have all phases (CT and contours) - we create a CT group
-        patient.Save()
+        #patient.Save()
