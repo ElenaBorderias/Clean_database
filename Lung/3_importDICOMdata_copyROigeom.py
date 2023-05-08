@@ -112,6 +112,7 @@ for i in index_list:
                 imported_phase_name = case.Examinations[examination_index].Name
                 phases_ct_names.append(imported_phase_name)
                 case.Examinations[imported_phase_name].EquipmentInfo.SetImagingSystemReference(ImagingSystemName="UCL Toshiba")
+                patient.Save()
 
                 #Copy structures
                 roi_names = [x.Name for x in case.PatientModel.RegionsOfInterest]
