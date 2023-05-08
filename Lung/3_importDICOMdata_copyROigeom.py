@@ -87,7 +87,7 @@ for i in index_list:
                 #print(dcm.SeriesInstanceUID.dtype)
                 print(dcm.SeriesInstanceUID)
                 info_ct = {'PatientID': dcm.PatientID, 'StudyInstanceUID': str(dcm.StudyInstanceUID), 'SeriesInstanceUID': str(dcm.SeriesInstanceUID)}
-                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_ct])
+                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_ct],AllowMismatchingPatientID=True)
 
                 #Import RTSTRUCT
                 # list all the files in the directory
@@ -105,7 +105,7 @@ for i in index_list:
                 rt_struct_path = os.path.join(phase_path,rt_structut_file)
                 RT_dcm = pydicom.read_file(rt_struct_path)
                 info_rtstruct = {'PatientID': RT_dcm.PatientID, 'StudyInstanceUID': str(RT_dcm.StudyInstanceUID), 'SeriesInstanceUID': str(RT_dcm.SeriesInstanceUID)}
-                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_rtstruct])
+                patient.ImportDataFromPath(Path=phase_path, CaseName=case.CaseName,SeriesOrInstances=[info_rtstruct],AllowMismatchingPatientID=True)
 
                 #Get CT name
                 examination_index = case.Examinations.Count - 1
