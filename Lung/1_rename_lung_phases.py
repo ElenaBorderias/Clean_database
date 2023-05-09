@@ -74,6 +74,18 @@ def create_MidV_EndInHale_EndExHale(list_exam_full, struct_to_analyze, index):
     inhale_ct = list_exam_full[inhale_scan_id]
     exhale_ct = list_exam_full[exhale_scan_id]
 
+    if chosen_ct == exhale_ct or midV_ct == inhale_ct:
+        rms = min(rms_list)
+        print("rms : ", rms)
+        print(rms_list)
+
+        midV_scan_id = rms_list.index(rms)
+        midV_ct = list_exam_full[midV_scan_id]
+
+    case.Examinations[midV_ct].Name = 'MidV CT' + index
+    case.Examinations[exhale_ct].Name = 'End_InH' + index
+    case.Examinations[inhale_ct].Name = 'End_ExH' + index
+
     case.Examinations[chosen_ct].Name = 'MidV CT' + index
     case.Examinations[exhale_ct].Name = 'End_InH' + index
     case.Examinations[inhale_ct].Name = 'End_ExH' + index
