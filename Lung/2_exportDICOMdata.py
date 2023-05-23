@@ -48,7 +48,7 @@ def log_completed(result):
 case = get_current("Case")
 patient = get_current("Patient")
 ctv_name = "CTV_T_LN"
-phases_groups = ["Phases 2","Phases 3"]
+phases_groups = ["Phases2"]
 
 clinic_db = get_current('ClinicDB')
 default_anonymization_options = clinic_db.GetSiteSettings().DicomSettings.DefaultAnonymizationOptions

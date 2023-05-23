@@ -37,7 +37,8 @@ def create_MidV_EndInHale_EndExHale(list_exam_full, struct_to_analyze, index):
             ((center_roi_x[center_idx] - mean_x) ** 2) + ((center_roi_y[center_idx] - mean_y) ** 2) + (
                 (center_roi_z[center_idx] - mean_z) ** 2)))
     # Initialize the variable chosen_ct as being the CT allowing the initialization of the minimum variable
-    rms = min(rms_list[6:])
+    #rms = min(rms_list[6:])
+    rms = min(rms_list)
     print("rms : ", rms)
     print(rms_list)
 
@@ -93,22 +94,22 @@ def create_MidV_EndInHale_EndExHale(list_exam_full, struct_to_analyze, index):
 
 case = get_current("Case")
 ctv_name = "CTV_T_LN"
-case.PatientModel.RegionsOfInterest['CTV(T+LN)'].Name = ctv_name
+#case.PatientModel.RegionsOfInterest['CTV(T+LN)'].Name = ctv_name
 phases_groups = ["Phases2"]
 
 
 for ct_group in phases_groups:
     index = ct_group[-1]
     ct_ref = "MidP CT "+index
-    ct_phases_raw = [
-        x.Examination.Name for x in case.ExaminationGroups[ct_group].Items]
+    ct_phases_raw = [x.Examination.Name for x in case.ExaminationGroups[ct_group].Items]
+    """
     case.PatientModel.CreateHybridDeformableRegistrationGroup(RegistrationGroupName="HybridDefReg_CT" + index,
                                                               ReferenceExaminationName=ct_ref,
                                                               TargetExaminationNames=ct_phases_raw,
                                                               ControllingRoiNames=[], ControllingPoiNames=[],
                                                               FocusRoiNames=[],
                                                               AlgorithmSettings={'NumberOfResolutionLevels': 3, 'InitialResolution': {'x': 0.5, 'y': 0.5, 'z': 0.5}, 'FinalResolution': {'x': 0.25, 'y': 0.25, 'z': 0.25}, 'InitialGaussianSmoothingSigma': 2, 'FinalGaussianSmoothingSigma': 0.333333333333333, 'InitialGridRegularizationWeight': 400, 'FinalGridRegularizationWeight': 400, 'ControllingRoiWeight': 0.5, 'ControllingPoiWeight': 0.1, 'MaxNumberOfIterationsPerResolutionLevel': 1000, 'ImageSimilarityMeasure': "CorrelationCoefficient", 'DeformationStrategy': "Default", 'ConvergenceTolerance': 1E-05})
-
+    """
     case.MapRoiGeometriesDeformably(RoiGeometryNames=[ctv_name],
                                     CreateNewRois=False,
                                     StructureRegistrationGroupNames=[

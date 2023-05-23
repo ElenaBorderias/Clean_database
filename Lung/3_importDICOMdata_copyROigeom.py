@@ -13,7 +13,7 @@ import math
 
 patient_list = []
 #index_list = [1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-index_list = [2]
+index_list = [9]
 print(index_list)
 
 def log_warning(error):
