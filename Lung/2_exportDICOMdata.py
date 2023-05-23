@@ -48,7 +48,7 @@ def log_completed(result):
 case = get_current("Case")
 patient = get_current("Patient")
 ctv_name = "CTV_T_LN"
-phases_groups = ["Phases 2", "Phases 3"]
+phases_groups = ["Phases 2","Phases 3"]
 
 clinic_db = get_current('ClinicDB')
 default_anonymization_options = clinic_db.GetSiteSettings().DicomSettings.DefaultAnonymizationOptions
@@ -69,7 +69,7 @@ for ct_group in phases_groups:
     cts_to_export = ct_phases_renamed
 
     for ct in cts_to_export:
-        path = os.path.join("E:\\Clean_data_Dario",patient.Name,index,ct)
+        path = os.path.join("Y:\\Elena\\Clean_data_Dario",patient.Name,index,ct)
         if not os.path.exists(path):
             os.makedirs(path)
         try:

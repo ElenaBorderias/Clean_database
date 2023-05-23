@@ -74,17 +74,13 @@ def create_MidV_EndInHale_EndExHale(list_exam_full, struct_to_analyze, index):
     inhale_ct = list_exam_full[inhale_scan_id]
     exhale_ct = list_exam_full[exhale_scan_id]
 
-    if chosen_ct == exhale_ct or midV_ct == inhale_ct:
+    if chosen_ct == exhale_ct or chosen_ct == inhale_ct:
         rms = min(rms_list)
         print("rms : ", rms)
         print(rms_list)
 
-        midV_scan_id = rms_list.index(rms)
-        midV_ct = list_exam_full[midV_scan_id]
-
-    case.Examinations[midV_ct].Name = 'MidV CT' + index
-    case.Examinations[exhale_ct].Name = 'End_InH' + index
-    case.Examinations[inhale_ct].Name = 'End_ExH' + index
+        chosen_scan_id = rms_list.index(rms)
+        chosen_ct = list_exam_full[chosen_scan_id]
 
     case.Examinations[chosen_ct].Name = 'MidV CT' + index
     case.Examinations[exhale_ct].Name = 'End_InH' + index
@@ -98,7 +94,7 @@ def create_MidV_EndInHale_EndExHale(list_exam_full, struct_to_analyze, index):
 case = get_current("Case")
 ctv_name = "CTV_T_LN"
 case.PatientModel.RegionsOfInterest['CTV(T+LN)'].Name = ctv_name
-phases_groups = ["Phases 2", "Phases 3"]
+phases_groups = ["Phases2"]
 
 
 for ct_group in phases_groups:
